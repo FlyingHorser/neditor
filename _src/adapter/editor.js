@@ -872,6 +872,7 @@
           if (holder) {
             if (holder.constructor === String) {
               holder = document.getElementById(holder);
+              if(!holder)return;
             }
             holder &&
               holder.getAttribute("name") &&
