@@ -55,7 +55,7 @@
       };
     },
     codemirror: function(editor, holder) {
-      var codeEditor = window.CodeMirror(holder, {
+      var codeEditor = window.NeditorCodeMirror(holder, {
         mode: "text/html",
         tabMode: "indent",
         lineNumbers: true,
@@ -115,7 +115,7 @@
     });
     function createSourceEditor(holder) {
       return sourceEditors[
-        opt.sourceEditor == "codemirror" && window.CodeMirror
+        opt.sourceEditor == "codemirror" && window.NeditorCodeMirror
           ? "codemirror"
           : "textarea"
       ](me, holder);

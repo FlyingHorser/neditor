@@ -5,7 +5,7 @@
 // some utilities are defined.
 
 // CodeMirror is the only global var we claim
-var CodeMirror = (function() {
+var NedotorCodeMirror = (function() {
     // This is the function that produces an editor instance. It's
     // closure is used to store the editor state.
     function CodeMirror(place, givenOptions) {
@@ -2759,7 +2759,7 @@ var CodeMirror = (function() {
 
     return CodeMirror;
 })();
-CodeMirror.defineMode("xml", function(config, parserConfig) {
+NedotorCodeMirror.defineMode("xml", function(config, parserConfig) {
     var indentUnit = config.indentUnit;
     var Kludges = parserConfig.htmlMode ? {
         autoSelfClosers: {"br": true, "img": true, "hr": true, "link": true, "input": true,
@@ -3009,9 +3009,9 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
     };
 });
 
-CodeMirror.defineMIME("application/xml", "xml");
-CodeMirror.defineMIME("text/html", {name: "xml", htmlMode: true});
-CodeMirror.defineMode("javascript", function(config, parserConfig) {
+NedotorCodeMirror.defineMIME("application/xml", "xml");
+NedotorCodeMirror.defineMIME("text/html", {name: "xml", htmlMode: true});
+NedotorCodeMirror.defineMode("javascript", function(config, parserConfig) {
     var indentUnit = config.indentUnit;
     var jsonMode = parserConfig.json;
 
@@ -3369,10 +3369,10 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
     };
 });
 
-CodeMirror.defineMIME("text/javascript", "javascript");
-CodeMirror.defineMIME("application/json", {name: "javascript", json: true});
+NedotorCodeMirror.defineMIME("text/javascript", "javascript");
+NedotorCodeMirror.defineMIME("application/json", {name: "javascript", json: true});
 
-CodeMirror.defineMode("css", function(config) {
+NedotorCodeMirror.defineMode("css", function(config) {
     var indentUnit = config.indentUnit, type;
     function ret(style, tp) {type = tp; return style;}
 
@@ -3495,11 +3495,11 @@ CodeMirror.defineMode("css", function(config) {
     };
 });
 
-CodeMirror.defineMIME("text/css", "css");
-CodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
-    var htmlMode = CodeMirror.getMode(config, {name: "xml", htmlMode: true});
-    var jsMode = CodeMirror.getMode(config, "javascript");
-    var cssMode = CodeMirror.getMode(config, "css");
+NedotorCodeMirror.defineMIME("text/css", "css");
+NedotorCodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
+    var htmlMode = NedotorCodeMirror.getMode(config, {name: "xml", htmlMode: true});
+    var jsMode = NedotorCodeMirror.getMode(config, "javascript");
+    var cssMode = NedotorCodeMirror.getMode(config, "css");
 
     function html(stream, state) {
         var style = htmlMode.token(stream, state.htmlState);
@@ -3552,9 +3552,9 @@ CodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
 
         copyState: function(state) {
             if (state.localState)
-                var local = CodeMirror.copyState(state.token == css ? cssMode : jsMode, state.localState);
+                var local = NedotorCodeMirror.copyState(state.token == css ? cssMode : jsMode, state.localState);
             return {token: state.token, localState: local, mode: state.mode,
-                htmlState: CodeMirror.copyState(htmlMode, state.htmlState)};
+                htmlState: NedotorCodeMirror.copyState(htmlMode, state.htmlState)};
         },
 
         token: function(stream, state) {
@@ -3578,4 +3578,4 @@ CodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
     }
 });
 
-CodeMirror.defineMIME("text/html", "htmlmixed");
+NedotorCodeMirror.defineMIME("text/html", "htmlmixed");
