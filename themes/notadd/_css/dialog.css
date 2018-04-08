@@ -175,7 +175,7 @@
 }
 .edui-dialog .edui-for-link .edui-dialog-body {
     height: 368px !important;
-    width: 420px !important;
+    max-width: 420px;
 }
 
 /*background-dialog*/

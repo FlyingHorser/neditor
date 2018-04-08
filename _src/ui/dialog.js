@@ -259,7 +259,7 @@
         "</div>" +
         this.closeButton.renderHtml() +
         "</div>" +
-        '<div id="##_content" class="%%-content">' +
+        '<div id="##_content" class="%%-content" '+($(window).width()<420?'style="width:'+$(window).width()+'px"':'') +'>'+
         (this.autoReset ? "" : this.getContentHtml()) +
         "</div>" +
         footHtml +
