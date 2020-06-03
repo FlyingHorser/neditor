@@ -18,12 +18,17 @@
      * 因此，UEditor提供了针对不同页面的编辑器可单独配置的根路径，具体来说，在需要实例化编辑器的页面最顶部写上如下代码即可。当然，需要令此处的URL等于对应的配置。
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
+  window.UEDITOR_HOME_URL = "/static/neditor/";
   var URL = window.UEDITOR_HOME_URL || getUEBasePath();
+  window.NEDITOR_UPLOAD =URL+"../../?/neditor/index";
 
   /**
      * 配置项主体。注意，此处所有涉及到路径的配置别遗漏URL变量。
      */
   window.UEDITOR_CONFIG = {
+    //向后台请求其它js文件时使用的版本号
+    version:2020,
+
     //为编辑器实例添加一个路径，这个不能被注释
     UEDITOR_HOME_URL: URL,
 
@@ -33,74 +38,73 @@
     //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
     toolbars: [
       [
-        "fullscreen",
-        "source",
-        "|",
-        "undo",
-        "redo",
-        "|",
+        //"fullscreen",
+        //"source",
+        //"|",
+        //"undo",
+        //"redo",
+        //"|",
         "bold",
         "italic",
         "underline",
-        "fontborder",
+        //"fontborder",
         "strikethrough",
-        "superscript",
-        "subscript",
+        //"superscript",
+        //"subscript",
         "removeformat",
         "formatmatch",
-        "autotypeset",
-        "blockquote",
-        "pasteplain",
+        //"autotypeset",
+        //"blockquote",
+        //"pasteplain",
         "|",
+        //"customstyle",
+        "paragraph",
+        "fontfamily",
+        "fontsize",
         "forecolor",
         "backcolor",
         "insertorderedlist",
         "insertunorderedlist",
-        "selectall",
-        "cleardoc",
+        //"selectall",
+        //"cleardoc",
         "|",
-        "rowspacingtop",
-        "rowspacingbottom",
+        //"rowspacingtop",
+        //"rowspacingbottom",
         "lineheight",
         "|",
-        "customstyle",
-        "paragraph",
-        "fontfamily",
-        "fontsize",
-        "|",
-        "directionalityltr",
-        "directionalityrtl",
-        "indent",
-        "|",
+        //"directionalityltr",
+        //"directionalityrtl",
+        //"indent",
+        //"|",
         "justifyleft",
         "justifycenter",
         "justifyright",
         "justifyjustify",
         "|",
-        "touppercase",
-        "tolowercase",
-        "|",
+        //"touppercase",
+        //"tolowercase",
+        //"|",
         "link",
-        "unlink",
-        "anchor",
-        "|",
-        "imagenone",
-        "imageleft",
-        "imageright",
-        "imagecenter",
+        //"unlink",
+        //"anchor",
+        //"|",
+        //"imagenone",
+        //"imageleft",
+        //"imageright",
+        //"imagecenter",
         "|",
         "simpleupload",
-        "insertimage",
-        "emotion",
-        "scrawl",
-        "insertvideo",
-        "music",
-        "attachment",
-        "map",
-        "gmap",
-        "insertframe",
+        //"insertimage",
+        //"emotion",
+        //"scrawl",
+        //"insertvideo",
+        //"music",
+        //"attachment",
+        //"map",
+        //"gmap",
+        //"insertframe",
         // "webapp",
-        "pagebreak",
+    /* "pagebreak",
         "template",
         "background",
         "|",
@@ -131,9 +135,104 @@
         "preview",
         "searchreplace",
         "drafts",
-        "help"
+        "help" */
       ]
-    ]
+    ],
+
+    // start of config.json
+    /* 前后端通信相关的配置,上传类功能使用，注释只允许使用多行方式 */
+    /* 上传图片配置项 */
+    "imageActionName": "uploadimage", /* 执行上传图片的action名称 */
+    "imageFieldName": "upfile", /* 提交的图片表单名称 */
+    "imageMaxSize": 2048000, /* 上传大小限制，单位B */
+    "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
+    "imageCompressEnable": true, /* 是否压缩图片,默认是true */
+    "imageCompressBorder": 1600, /* 图片压缩最长边限制 */
+    "imageInsertAlign": "none", /* 插入的图片浮动方式 */
+    "imageUrlPrefix": "", /* 图片访问路径前缀 */
+    "imagePathFormat": "../images/{space}/{yyyy}{mm}/{uuid}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+                                /* {filename} 会替换成原文件名,配置这项需要注意中文乱码问题 */
+                                /* {rand:6} 会替换成随机数,后面的数字是随机数的位数 */
+                                /* {time} 会替换成时间戳 */
+                                /* {yyyy} 会替换成四位年份 */
+                                /* {yy} 会替换成两位年份 */
+                                /* {mm} 会替换成两位月份 */
+                                /* {dd} 会替换成两位日期 */
+                                /* {hh} 会替换成两位小时 */
+                                /* {ii} 会替换成两位分钟 */
+                                /* {ss} 会替换成两位秒 */
+                                /* 非法字符 \ : * ? " < > | */
+                                /* 具请体看线上文档: fex.baidu.com/neditor/#use-format_upload_filename */
+
+    /* 涂鸦图片上传配置项 */
+    "scrawlActionName": "uploadscrawl", /* 执行上传涂鸦的action名称 */
+    "scrawlFieldName": "upfile", /* 提交的图片表单名称 */
+    "scrawlPathFormat": "/upload/neditor/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+    "scrawlMaxSize": 2048000, /* 上传大小限制，单位B */
+    "scrawlUrlPrefix": "", /* 图片访问路径前缀 */
+    "scrawlInsertAlign": "none",
+
+    /* 截图工具上传 */
+    "snapscreenActionName": "uploadimage", /* 执行上传截图的action名称 */
+    "snapscreenPathFormat": "/upload/neditor/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+    "snapscreenUrlPrefix": "", /* 图片访问路径前缀 */
+    "snapscreenInsertAlign": "none", /* 插入的图片浮动方式 */
+
+    /* 抓取远程图片配置 */
+    "catcherLocalDomain": ["127.0.0.1", "localhost", "img.baidu.com"],
+    "catcherActionName": "catchimage", /* 执行抓取远程图片的action名称 */
+    "catcherFieldName": "source", /* 提交的图片列表表单名称 */
+    "catcherPathFormat": "/upload/neditor/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+    "catcherUrlPrefix": "", /* 图片访问路径前缀 */
+    "catcherMaxSize": 2048000, /* 上传大小限制，单位B */
+    "catcherAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 抓取图片格式显示 */
+
+    /* 上传视频配置 */
+    "videoActionName": "uploadvideo", /* 执行上传视频的action名称 */
+    "videoFieldName": "upfile", /* 提交的视频表单名称 */
+    "videoPathFormat": "/upload/neditor/video/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+    "videoUrlPrefix": "", /* 视频访问路径前缀 */
+    "videoMaxSize": 204800000, /* 上传大小限制，单位B，默认100MB */
+    "videoAllowFiles": [
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"], /* 上传视频格式显示 */
+
+    /* 上传文件配置 */
+    "fileActionName": "uploadfile", /* controller里,执行上传视频的action名称 */
+    "fileFieldName": "upfile", /* 提交的文件表单名称 */
+    "filePathFormat": "/upload/neditor/file/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+    "fileUrlPrefix": "", /* 文件访问路径前缀 */
+    "fileMaxSize": 204800000, /* 上传大小限制，单位B，默认50MB */
+    "fileAllowFiles": [
+        ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
+    ], /* 上传文件格式显示 */
+
+    /* 列出指定目录下的图片 */
+    "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
+    "imageManagerListPath": "/upload/neditor/image/", /* 指定要列出图片的目录 */
+    "imageManagerListSize": 20, /* 每次列出文件数量 */
+    "imageManagerUrlPrefix": "", /* 图片访问路径前缀 */
+    "imageManagerInsertAlign": "none", /* 插入的图片浮动方式 */
+    "imageManagerAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 列出的文件类型 */
+
+    /* 列出指定目录下的文件 */
+    "fileManagerActionName": "listfile", /* 执行文件管理的action名称 */
+    "fileManagerListPath": "/upload/neditor/file/", /* 指定要列出文件的目录 */
+    "fileManagerUrlPrefix": "", /* 文件访问路径前缀 */
+    "fileManagerListSize": 20, /* 每次列出文件数量 */
+    "fileManagerAllowFiles": [
+        ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+        ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
+    ] /* 列出的文件类型 */
+    // end of config.json
+
     //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
     //,labelMap:{
     //    'anchor':'', 'undo':''
@@ -142,14 +241,14 @@
     //语言配置项,默认是zh-cn。有需要的话也可以使用如下这样的方式来自动多语言切换，当然，前提条件是lang文件夹下存在对应的语言文件：
     //lang值也可以通过自动获取 (navigator.language||navigator.browserLanguage ||navigator.userLanguage).toLowerCase()
     //,lang:"zh-cn"
-    //,langPath:URL +"i18n/"
+    ,langPath:URL +"i18n/"
 
     //主题配置项,默认是default。有需要的话也可以使用如下这样的方式来自动多主题切换，当然，前提条件是themes文件夹下存在对应的主题文件：
     //现有如下皮肤:default
     ,theme:'notadd'
     //,themePath:URL +"themes/"
 
-    ,zIndex : 1100     //编辑器层级的基数,默认是900
+    ,zIndex : 0     //编辑器层级的基数,默认是900
 
     //针对getAllHtml方法，会在对应的head标签中增加该编码设置。
     //,charset:"utf-8"
@@ -178,8 +277,8 @@
     //首行缩进距离,默认是2em
     //,indentValue:'2em'
 
-    //,initialFrameWidth:1000  //初始化编辑器宽度,默认1000
-    //,initialFrameHeight:320  //初始化编辑器高度,默认320
+    ,initialFrameWidth:-1  //初始化编辑器宽度,默认1000
+    ,initialFrameHeight:320  //初始化编辑器高度,默认320
 
     //,readonly : false //编辑器初始化结束后,编辑区域是否是只读的，默认是false
 
@@ -241,31 +340,31 @@
 
     //insertorderedlist
     //有序列表的下拉配置,值留空时支持多语言自动识别，若配置值，则以此值为准
-    //,'insertorderedlist':{
-    //      //自定的样式
-    //        'num':'1,2,3...',
-    //        'num1':'1),2),3)...',
-    //        'num2':'(1),(2),(3)...',
-    //        'cn':'一,二,三....',
-    //        'cn1':'一),二),三)....',
-    //        'cn2':'(一),(二),(三)....',
-    //     //系统自带
-    //     'decimal' : '' ,         //'1,2,3...'
-    //     'lower-alpha' : '' ,    // 'a,b,c...'
-    //     'lower-roman' : '' ,    //'i,ii,iii...'
-    //     'upper-alpha' : '' , lang   //'A,B,C'
-    //     'upper-roman' : ''      //'I,II,III...'
-    //}
+    ,'insertorderedlist':{
+      //自定的样式
+        // 'num':'1,2,3...',
+        // 'num1':'1),2),3)...',
+        // 'num2':'(1),(2),(3)...',
+     //    'cn':'一,二,三....',
+     //    'cn1':'一),二),三)....',
+     //    'cn2':'(一),(二),(三)....',
+     // //系统自带
+     'decimal' : '' ,         //'1,2,3...'
+     'lower-alpha' : '' ,    // 'a,b,c...'
+     'lower-roman' : '' ,    //'i,ii,iii...'
+     'upper-alpha' : '' ,    //'A,B,C'
+     'upper-roman' : ''      //'I,II,III...'
+    }
 
     //insertunorderedlist
     //无序列表的下拉配置，值留空时支持多语言自动识别，若配置值，则以此值为准
-    //,insertunorderedlist : { //自定的样式
-    //    'dash' :'— 破折号', //-破折号
-    //    'dot':' 。 小圆圈', //系统自带
-    //    'circle' : '',  // '○ 小圆圈'
-    //    'disc' : '',    // '● 小圆点'
-    //    'square' : ''   //'■ 小方块'
-    //}
+    ,insertunorderedlist : { //自定的样式
+      // 'dash' :'— 破折号', //-破折号
+      // 'dot':' 。 小圆圈', //系统自带
+      'circle' : '',  // '○ 小圆圈'
+      'disc' : '',    // '● 小圆点'
+      'square' : ''   //'■ 小方块'
+    }
     //,listDefaultPaddingLeft : '30'//默认的左边缩进的基数倍
     //,listiconpath : 'http://bs.baidu.com/listicon/'//自定义标号的路径
     //,maxListLevel : 3 //限制可以tab的级数, 设置-1为不限制
@@ -274,23 +373,24 @@
 
     //fontfamily
     //字体设置 label留空支持多语言自动切换，若配置，则以配置值为准
-    //,'fontfamily':[
-    //    { label:'',name:'songti',val:'宋体,SimSun'},
-    //    { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
-    //    { label:'',name:'yahei',val:'微软雅黑,Microsoft YaHei'},
-    //    { label:'',name:'heiti',val:'黑体, SimHei'},
-    //    { label:'',name:'lishu',val:'隶书, SimLi'},
-    //    { label:'',name:'andaleMono',val:'andale mono'},
-    //    { label:'',name:'arial',val:'arial, helvetica,sans-serif'},
-    //    { label:'',name:'arialBlack',val:'arial black,avant garde'},
-    //    { label:'',name:'comicSansMs',val:'comic sans ms'},
-    //    { label:'',name:'impact',val:'impact,chicago'},
-    //    { label:'',name:'timesNewRoman',val:'times new roman'}
-    //]
+    ,'fontfamily':[
+      { label:'',name:'songti',val:'宋体,SimSun'},
+      { label:'',name:'kaiti',val:'楷体,楷体_GB2312, SimKai'},
+      { label:'',name:'yahei',val:'微软雅黑,Microsoft YaHei'},
+      { label:'',name:'heiti',val:'黑体, SimHei'},
+      { label:'',name:'lishu',val:'隶书, SimLi'},
+      { label:'',name:'andaleMono',val:'andale mono'},
+      { label:'',name:'arial',val:'arial, helvetica,sans-serif'},
+      { label:'',name:'arialBlack',val:'arial black,avant garde'},
+      { label:'',name:'comicSansMs',val:'comic sans ms'},
+      { label:'',name:'impact',val:'impact,chicago'},
+      { label:'',name:'timesNewRoman',val:'times new roman'},
+      { label:'',name:'pepm',val:"'Helvetica Neue', Helvetica, 'PingFang SC', 微软雅黑, Tahoma, Arial, sans-serif;"}
+    ]
 
     //fontsize
     //字号
-    //,'fontsize':[10, 11, 12, 14, 16, 18, 20, 24, 36]
+    ,'fontsize':[10, 11, 12, 14, 16, 18, 20, 24, 36]
 
     //paragraph
     //段落格式 值留空时支持多语言自动识别，若配置，则以配置值为准
@@ -343,11 +443,11 @@
     //,shortcutMenu:["fontfamily", "fontsize", "bold", "italic", "underline", "forecolor", "backcolor", "insertorderedlist", "insertunorderedlist"]
 
     //elementPathEnabled
-    //是否启用元素路径，默认是显示
-    //,elementPathEnabled : true
+    //是否启用元素路径，默认是显示true
+    ,elementPathEnabled : false
 
     //wordCount
-    //,wordCount:true          //是否开启字数统计
+    ,wordCount:false          //是否开启字数统计true
     //,maximumWords:10000       //允许的最大字符数
     //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
     //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
@@ -384,7 +484,7 @@
 
     //autoFloatEnabled
     //是否保持toolbar的位置不动,默认true
-    //,autoFloatEnabled:true
+    ,autoFloatEnabled:false
     //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
     //,topOffset:30
     //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)

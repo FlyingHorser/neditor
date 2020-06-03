@@ -246,7 +246,9 @@
     me.setOpt(Editor.defaultOptions(me));
 
     /* 尝试异步加载后台配置 */
-    me.loadServerConfig();
+    //me.loadServerConfig();
+    //服务器config.json直接放在neditor.config.js文件中，不再异步加载
+    me._serverConfigLoaded=true;
 
     if (!utils.isEmptyObject(UE.I18N)) {
       //修改默认的语言类型
@@ -262,7 +264,7 @@
               me.options.lang +
               "/" +
               me.options.lang +
-              ".js",
+              ".js?v=" + me.options.version,
           tag: "script",
           type: "text/javascript",
           defer: "defer"
@@ -468,7 +470,7 @@
           ".view{padding:0;word-wrap:break-word;cursor:text;height:90%;}\n" +
           //设置默认字体和字号
           //font-family不能呢随便改，在safari下fillchar会有解析问题
-          "body{margin:8px;font-family:sans-serif;font-size:16px;}" +
+          "body{margin:8px;font-family:微软雅黑;font-size:13px;}" +
           //设置placeholder
           "body.empty:before{content:attr(placeholder);position:absolute;color:#999;}"+
           //设置段落间距
@@ -498,24 +500,24 @@
             : "") +
           "</html>";
 
-        container.appendChild(
-          domUtils.createElement(document, "iframe", {
+        var iframeDOM = domUtils.createElement(document, "iframe", {
             id: "ueditor_" + me.uid,
             width: "100%",
             height: "100%",
-            frameborder: "0",
+            frameborder: "0"
             //先注释掉了，加的原因忘记了，但开启会直接导致全屏模式下内容多时不会出现滚动条
-            //                    scrolling :'no',
-            src:
-              "javascript:void(function(){document.open();" +
-                (options.customDomain && document.domain != location.hostname
-                  ? 'document.domain="' + document.domain + '";'
-                  : "") +
-                'document.write("' +
-                html +
-                '");document.close();}())'
-          })
-        );
+            //scrolling :'no',
+        });
+        var iframeSrc = "javascript:void(function(){document.open();" +
+            (options.customDomain && document.domain != location.hostname
+                ? 'document.domain="' + document.domain + '";'
+                : "") +
+            'document.write("' +
+            html +
+            '");document.close();}())';
+        container.appendChild(iframeDOM);
+        iframeDOM.contentDocument.location = iframeSrc;
+
         container.style.overflow = "hidden";
         //解决如果是给定的百分比，会导致高度算不对的问题
         setTimeout(function() {
@@ -1584,6 +1586,8 @@
       if (ingoneHtml) {
         tagNames = (tagNames || []).concat(["hr", "img", "iframe"]);
         count = this.getContentTxt().replace(/[\t\r\n]+/g, "").length;
+        //需要兼容汉字就使用下面这句
+        //count = this.getContentTxt().replace(/[\u0391-\uFFE5]/g,"aa").length;
         for (var i = 0, ci; (ci = tagNames[i++]); ) {
           count += this.document.getElementsByTagName(ci).length;
         }

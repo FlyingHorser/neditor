@@ -92,6 +92,11 @@
             "></a></td>"
         : "";
     }
+
+    html += "<tr style='border-bottom: 1px solid #ddd;font-size: 13px;line-height: 25px;color:#39C;padding-top: 2px'><td colspan='10'>"+editor.getLang("pepmColor")+"</td></tr>";
+    html += '<tr class="edui-colorpicker-tablefirstrow" >';
+    html += '<td style="padding: 0 2px;"><a hidefocus title=687684"" onclick="return false;" href="javascript:" unselectable="on" class="edui-box edui-colorpicker-colorcell" data-color="#687684" style="background-color:#687684; border: 1px solid #ccc;"></a></td>';
+
     html += "</tr></table></div>";
     return html;
   }

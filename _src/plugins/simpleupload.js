@@ -62,6 +62,9 @@ UE.plugin.register("simpleupload", function() {
       btnIframeBody.style.cssText = btnStyle;
       btnIframeBody.style.width = w + "px";
       btnIframeBody.style.height = h + "px";
+      btnIframeBody.title = me.options.labelMap["simpleupload"] ||
+        me.getLang("labelMap.simpleupload") ||
+        "";
       btnIframeBody.appendChild(wrapper);
 
       if (btnIframeBody.parentNode) {
